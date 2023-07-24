@@ -316,11 +316,11 @@ class System_Daemon
             'required' => true,
         ),
         'appChkConfig' => array(
-             'type' => 'string',
-             'default' => '- 99 0',
-             'punch' => 'chkconfig parameters for init.d',
-             'detail' => 'runlevel startpriority stoppriority',
-         ),
+            'type' => 'string',
+            'default' => '- 99 0',
+            'punch' => 'chkconfig parameters for init.d',
+            'detail' => 'runlevel startpriority stoppriority',
+        ),
         'appDieOnIdentityCrisis' => array(
             'type' => 'boolean',
             'default' => true,
@@ -394,41 +394,40 @@ class System_Daemon
      * @see setSigHandler()
      */
     static protected $_sigHandlers = array(
-        SIGHUP => array('System_Daemon', 'defaultSigHandler'),
-        SIGINT => array('System_Daemon', 'defaultSigHandler'),
-        SIGQUIT => array('System_Daemon', 'defaultSigHandler'),
-        SIGILL => array('System_Daemon', 'defaultSigHandler'),
-        SIGTRAP => array('System_Daemon', 'defaultSigHandler'),
-        SIGABRT => array('System_Daemon', 'defaultSigHandler'),
+        'SIGHUP' => array('System_Daemon', 'defaultSigHandler'),
+        'SIGINT' => array('System_Daemon', 'defaultSigHandler'),
+        'SIGQUIT' => array('System_Daemon', 'defaultSigHandler'),
+        'SIGILL' => array('System_Daemon', 'defaultSigHandler'),
+        'SIGTRAP' => array('System_Daemon', 'defaultSigHandler'),
+        'SIGABRT' => array('System_Daemon', 'defaultSigHandler'),
         'SIGIOT' => array('System_Daemon', 'defaultSigHandler'),
-        SIGBUS => array('System_Daemon', 'defaultSigHandler'),
-        SIGFPE => array('System_Daemon', 'defaultSigHandler'),
-        SIGUSR1 => array('System_Daemon', 'defaultSigHandler'),
-        SIGSEGV => array('System_Daemon', 'defaultSigHandler'),
-        SIGUSR2 => array('System_Daemon', 'defaultSigHandler'),
-        SIGPIPE => SIG_IGN,
-        SIGALRM => array('System_Daemon', 'defaultSigHandler'),
-        SIGTERM => array('System_Daemon', 'defaultSigHandler'),
+        'SIGBUS' => array('System_Daemon', 'defaultSigHandler'),
+        'SIGFPE' => array('System_Daemon', 'defaultSigHandler'),
+        'SIGUSR1' => array('System_Daemon', 'defaultSigHandler'),
+        'SIGSEGV' => array('System_Daemon', 'defaultSigHandler'),
+        'SIGUSR2' => array('System_Daemon', 'defaultSigHandler'),
+        'SIGPIPE' => 'SIG_IGN',
+        'SIGALRM' => array('System_Daemon', 'defaultSigHandler'),
+        'SIGTERM' => array('System_Daemon', 'defaultSigHandler'),
         'SIGSTKFLT' => array('System_Daemon', 'defaultSigHandler'),
         'SIGCLD' => array('System_Daemon', 'defaultSigHandler'),
         'SIGCHLD' => array('System_Daemon', 'defaultSigHandler'),
-        SIGCONT => array('System_Daemon', 'defaultSigHandler'),
-        SIGTSTP => array('System_Daemon', 'defaultSigHandler'),
-        SIGTTIN => array('System_Daemon', 'defaultSigHandler'),
-        SIGTTOU => array('System_Daemon', 'defaultSigHandler'),
-        SIGURG => array('System_Daemon', 'defaultSigHandler'),
-        SIGXCPU => array('System_Daemon', 'defaultSigHandler'),
-        SIGXFSZ => array('System_Daemon', 'defaultSigHandler'),
-        SIGVTALRM => array('System_Daemon', 'defaultSigHandler'),
-        SIGPROF => array('System_Daemon', 'defaultSigHandler'),
-        SIGWINCH => array('System_Daemon', 'defaultSigHandler'),
+        'SIGCONT' => array('System_Daemon', 'defaultSigHandler'),
+        'SIGTSTP' => array('System_Daemon', 'defaultSigHandler'),
+        'SIGTTIN' => array('System_Daemon', 'defaultSigHandler'),
+        'SIGTTOU' => array('System_Daemon', 'defaultSigHandler'),
+        'SIGURG' => array('System_Daemon', 'defaultSigHandler'),
+        'SIGXCPU' => array('System_Daemon', 'defaultSigHandler'),
+        'SIGXFSZ' => array('System_Daemon', 'defaultSigHandler'),
+        'SIGVTALRM' => array('System_Daemon', 'defaultSigHandler'),
+        'SIGPROF' => array('System_Daemon', 'defaultSigHandler'),
+        'SIGWINCH' => array('System_Daemon', 'defaultSigHandler'),
         'SIGPOLL' => array('System_Daemon', 'defaultSigHandler'),
-        SIGIO => array('System_Daemon', 'defaultSigHandler'),
+        'SIGIO' => array('System_Daemon', 'defaultSigHandler'),
         'SIGPWR' => array('System_Daemon', 'defaultSigHandler'),
         'SIGSYS' => array('System_Daemon', 'defaultSigHandler'),
-        SIGBABY => array('System_Daemon', 'defaultSigHandler'),
+        'SIGBABY' => array('System_Daemon', 'defaultSigHandler'),
     );
-
 
     /**
      * Making the class non-abstract with a protected constructor does a better
@@ -438,7 +437,6 @@ class System_Daemon
      */
     protected function __construct()
     {
-
     }
 
 
@@ -462,16 +460,16 @@ class System_Daemon
             $newClassName = $className;
         }
 
-        $path = str_replace('_', '/', $newClassName).'.php';
+        $path = str_replace('_', '/', $newClassName) . '.php';
 
-        if (is_file(dirname(__FILE__).'/'.$path) === true) {
+        if (is_file(dirname(__FILE__) . '/' . $path) === true) {
             // Check standard file locations based on class name.
-            include(dirname(__FILE__).'/'.$path);
+            include(dirname(__FILE__) . '/' . $path);
         } else {
             // Everything else.
             // Check for $path within each include_path
-            foreach (explode(PATH_SEPARATOR,ini_get('include_path')) as $prefix) {
-                $prefixed_path = $prefix.'/'.$path;
+            foreach (explode(PATH_SEPARATOR, ini_get('include_path')) as $prefix) {
+                $prefixed_path = $prefix . '/' . $path;
                 if (file_exists($prefixed_path)) {
                     include $prefixed_path;
                     return true;
@@ -533,7 +531,7 @@ class System_Daemon
         if (self::opt('usePEAR')) {
             // SPL's autoload will make sure classes are automatically loaded
             if (false === class_exists('PEAR', true)) {
-                $msg = 'PEAR not found. Install PEAR or run with option: '.
+                $msg = 'PEAR not found. Install PEAR or run with option: ' .
                     'usePEAR = false';
                 trigger_error($msg, E_USER_ERROR);
             }
@@ -613,7 +611,6 @@ class System_Daemon
         self::_summon();
 
         return true;
-
     }
 
     /**
@@ -788,7 +785,7 @@ class System_Daemon
      *
      * @return boolean
      */
-    static public function phpErrors ($errno, $errstr, $errfile, $errline)
+    static public function phpErrors($errno, $errstr, $errfile, $errline)
     {
         // Ignore suppressed errors (prefixed by '@')
         if (error_reporting() == 0) {
@@ -806,8 +803,12 @@ class System_Daemon
         // Log it
         // No shortcuts this time!
         self::log(
-            $logLvl, '[PHP ' . $phpLvl . '] '.$errstr, $errfile, __CLASS__,
-            __FUNCTION__, $errline
+            $logLvl,
+            '[PHP ' . $phpLvl . '] ' . $errstr,
+            $errfile,
+            __CLASS__,
+            __FUNCTION__,
+            $errline
         );
 
         return true;
@@ -830,7 +831,7 @@ class System_Daemon
 
         $canBe = $cutAt - strlen($suffix);
 
-        return substr($str, 0, $canBe). $suffix;
+        return substr($str, 0, $canBe) . $suffix;
     }
 
     /**
@@ -848,21 +849,21 @@ class System_Daemon
         }
         if (!is_array($arguments)) {
             if (!is_numeric($arguments) && !is_bool($arguments)) {
-                $arguments = '\''.$arguments.'\'';
+                $arguments = '\'' . $arguments . '\'';
             }
             return $arguments;
         }
         $arr = array();
-        foreach ($arguments as $key=>$val) {
+        foreach ($arguments as $key => $val) {
             if (is_array($val)) {
                 $val = json_encode($val);
             } elseif (!is_numeric($val) && !is_bool($val)) {
-                $val = '\''.$val.'\'';
+                $val = '\'' . $val . '\'';
             }
 
             $val = self::abbr($val);
 
-            $arr[] = $key.': '.$val;
+            $arr[] = $key . ': ' . $val;
         }
         return join(', ', $arr);
     }
@@ -874,7 +875,8 @@ class System_Daemon
      */
     public static function emerg()
     {
-        $arguments = func_get_args(); array_unshift($arguments, __FUNCTION__);
+        $arguments = func_get_args();
+        array_unshift($arguments, __FUNCTION__);
         call_user_func_array(array('System_Daemon', '_ilog'), $arguments);
         return false;
     }
@@ -886,7 +888,8 @@ class System_Daemon
      */
     public static function alert()
     {
-        $arguments = func_get_args(); array_unshift($arguments, __FUNCTION__);
+        $arguments = func_get_args();
+        array_unshift($arguments, __FUNCTION__);
         call_user_func_array(array('System_Daemon', '_ilog'), $arguments);
         return false;
     }
@@ -898,7 +901,8 @@ class System_Daemon
      */
     public static function crit()
     {
-        $arguments = func_get_args(); array_unshift($arguments, __FUNCTION__);
+        $arguments = func_get_args();
+        array_unshift($arguments, __FUNCTION__);
         call_user_func_array(array('System_Daemon', '_ilog'), $arguments);
         return false;
     }
@@ -910,7 +914,8 @@ class System_Daemon
      */
     public static function err()
     {
-        $arguments = func_get_args(); array_unshift($arguments, __FUNCTION__);
+        $arguments = func_get_args();
+        array_unshift($arguments, __FUNCTION__);
         call_user_func_array(array('System_Daemon', '_ilog'), $arguments);
         return false;
     }
@@ -922,7 +927,8 @@ class System_Daemon
      */
     public static function warning()
     {
-        $arguments = func_get_args(); array_unshift($arguments, __FUNCTION__);
+        $arguments = func_get_args();
+        array_unshift($arguments, __FUNCTION__);
         call_user_func_array(array('System_Daemon', '_ilog'), $arguments);
         return false;
     }
@@ -934,7 +940,8 @@ class System_Daemon
      */
     public static function notice()
     {
-        $arguments = func_get_args(); array_unshift($arguments, __FUNCTION__);
+        $arguments = func_get_args();
+        array_unshift($arguments, __FUNCTION__);
         call_user_func_array(array('System_Daemon', '_ilog'), $arguments);
         return true;
     }
@@ -946,7 +953,8 @@ class System_Daemon
      */
     public static function info()
     {
-        $arguments = func_get_args(); array_unshift($arguments, __FUNCTION__);
+        $arguments = func_get_args();
+        array_unshift($arguments, __FUNCTION__);
         call_user_func_array(array('System_Daemon', '_ilog'), $arguments);
         return true;
     }
@@ -958,7 +966,8 @@ class System_Daemon
      */
     public static function debug()
     {
-        $arguments = func_get_args(); array_unshift($arguments, __FUNCTION__);
+        $arguments = func_get_args();
+        array_unshift($arguments, __FUNCTION__);
         call_user_func_array(array('System_Daemon', '_ilog'), $arguments);
         return true;
     }
@@ -980,7 +989,7 @@ class System_Daemon
 
         if (is_string($level)) {
             if (false === ($l = array_search($level, self::$_logLevels))) {
-                self::log(LOG_EMERG, 'No such loglevel: '. $level);
+                self::log(LOG_EMERG, 'No such loglevel: ' . $level);
             } else {
                 $level = $l;
             }
@@ -1007,8 +1016,8 @@ class System_Daemon
 
         $history  = 2;
         $dbg_bt   = @debug_backtrace();
-        $class    = (string)@$dbg_bt[($history-1)]['class'];
-        $function = (string)@$dbg_bt[($history-1)]['function'];
+        $class    = (string)@$dbg_bt[($history - 1)]['class'];
+        $function = (string)@$dbg_bt[($history - 1)]['function'];
         $file     = (string)@$dbg_bt[$history]['file'];
         $line     = (string)@$dbg_bt[$history]['line'];
         return self::log($level, $str, $file, $class, $function, $line);
@@ -1037,10 +1046,17 @@ class System_Daemon
      * @see _logLevels
      * @see logLocation
      */
-    static public function log ($level, $str, $file = false, $class = false,
-    $function = false, $line = false) {
+    static public function log(
+        $level,
+        $str,
+        $file = false,
+        $class = false,
+        $function = false,
+        $line = false
+    ) {
         // If verbosity level is not matched, don't do anything
-        if (null === self::opt('logVerbosity')
+        if (
+            null === self::opt('logVerbosity')
             || false === self::opt('logVerbosity')
         ) {
             // Somebody is calling log before launching daemon..
@@ -1064,10 +1080,10 @@ class System_Daemon
                     $file = substr($file, strlen(self::opt('appDir')));
                 }
 
-                $log_tail .= ' [f:'.$file.']';
+                $log_tail .= ' [f:' . $file . ']';
             }
             if (self::opt('logLinePosition')) {
-                $log_tail .= ' [l:'.$line.']';
+                $log_tail .= ' [l:' . $line . ']';
             }
         }
 
@@ -1090,8 +1106,8 @@ class System_Daemon
         // if someone forgets to pass them.
         if (function_exists('debug_backtrace') && (!$file || !$line)) {
             $dbg_bt   = @debug_backtrace();
-            $class    = (isset($dbg_bt[1]['class'])?$dbg_bt[1]['class']:'');
-            $function = (isset($dbg_bt[1]['function'])?$dbg_bt[1]['function']:'');
+            $class    = (isset($dbg_bt[1]['class']) ? $dbg_bt[1]['class'] : '');
+            $function = (isset($dbg_bt[1]['function']) ? $dbg_bt[1]['function'] : '');
             $file     = $dbg_bt[0]['file'];
             $line     = $dbg_bt[0]['line'];
         }
@@ -1117,7 +1133,7 @@ class System_Daemon
         }
 
         if (!self::opt('logLocation')) {
-            throw new System_Daemon_Exception('Either use PEAR Log or specify '.
+            throw new System_Daemon_Exception('Either use PEAR Log or specify ' .
                 'a logLocation');
         }
 
@@ -1127,7 +1143,8 @@ class System_Daemon
         }
 
         // Not writable even after touch? Allowed to echo again!!
-        if (!is_writable(self::opt('logLocation'))
+        if (
+            !is_writable(self::opt('logLocation'))
             && $non_debug && !$log_echoed
         ) {
             echo $log_line . "\n";
@@ -1164,7 +1181,7 @@ class System_Daemon
      *
      * @return boolean
      */
-    static public function writeAutoRun($overwrite=false)
+    static public function writeAutoRun($overwrite = false)
     {
         // Init Options (needed for properties of init.d script)
         if (false === self::_optionsInit(false)) {
@@ -1218,28 +1235,28 @@ class System_Daemon
         self::debug('Received signal: %s', $signo);
 
         switch ($signo) {
-        case SIGTERM:
-            // Handle shutdown tasks
-            if (self::isInBackground()) {
-                self::_die();
-            } else {
-                exit;
-            }
-            break;
-        case SIGHUP:
-            // Handle restart tasks
-            self::debug('Received signal: restart');
-            break;
-        case SIGCHLD:
-            // A child process has died
-            self::debug('Received signal: child');
-            while (pcntl_wait($status, WNOHANG OR WUNTRACED) > 0) {
-                usleep(1000);
-            }
-            break;
-        default:
-            // Handle all other signals
-            break;
+            case SIGTERM:
+                // Handle shutdown tasks
+                if (self::isInBackground()) {
+                    self::_die();
+                } else {
+                    exit;
+                }
+                break;
+            case SIGHUP:
+                // Handle restart tasks
+                self::debug('Received signal: restart');
+                break;
+            case SIGCHLD:
+                // A child process has died
+                self::debug('Received signal: child');
+                while (pcntl_wait($status, WNOHANG or WUNTRACED) > 0) {
+                    usleep(1000);
+                }
+                break;
+            default:
+                // Handle all other signals
+                break;
         }
     }
 
@@ -1289,7 +1306,7 @@ class System_Daemon
             @unlink($appPidLocation);
             return self::warning(
                 'Orphaned pidfile found and removed: ' .
-                '{appPidLocation}. Previous process crashed?'
+                    '{appPidLocation}. Previous process crashed?'
             );
         }
 
@@ -1390,7 +1407,7 @@ class System_Daemon
 
         // Important for daemons
         // See http://www.php.net/manual/en/function.pcntl-signal.php
-        declare(ticks = 1);
+        declare(ticks=1);
 
         // Setup signal handlers
         // Handlers for individual signals can be overrulled with
@@ -1399,7 +1416,7 @@ class System_Daemon
             if (!is_callable($handler) && $handler != SIG_IGN && $handler != SIG_DFL) {
                 return self::emerg(
                     'You want to assign signal %s to handler %s but ' .
-                    'it\'s not callable',
+                        'it\'s not callable',
                     $signal,
                     $handler
                 );
@@ -1439,7 +1456,7 @@ class System_Daemon
             // like: /var/run/x.pid
             return self::err(
                 'Since version 0.6.3, the pidfile needs to be ' .
-                'in it\'s own subdirectory like: %s/{appName}/{appName}.pid'
+                    'in it\'s own subdirectory like: %s/{appName}/{appName}.pid'
             );
         }
 
@@ -1488,7 +1505,8 @@ class System_Daemon
      *
      * @return string
      */
-    static public function fileread ($filepath) {
+    static public function fileread($filepath)
+    {
         $f = fopen($filepath, 'r');
         if (!$f) {
             return false;
@@ -1560,10 +1578,10 @@ class System_Daemon
                 );
             }
 
-			// Export correct homedir
-			if (($info = posix_getpwuid($uid)) && is_dir($info['dir'])) {
-				system('export HOME="' . $info['dir'] . '"');
-			}
+            // Export correct homedir
+            if (($info = posix_getpwuid($uid)) && is_dir($info['dir'])) {
+                system('export HOME="' . $info['dir'] . '"');
+            }
         }
 
         // Change Process GID
@@ -1646,7 +1664,7 @@ class System_Daemon
         if (!self::isInBackground()) {
             self::info(
                 'Process was not daemonized yet, ' .
-                'just halting current process'
+                    'just halting current process'
             );
             die();
         }
@@ -1714,7 +1732,7 @@ class System_Daemon
      *
      * @return mixed integer or boolean
      */
-    static protected function _optionsInit($premature=false)
+    static protected function _optionsInit($premature = false)
     {
         if (!self::_optionObjSetup()) {
             return false;
